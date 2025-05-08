@@ -1,0 +1,11 @@
+[
+  {
+    "username": "testuser",
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "test@example.com",
+    "password": "28e62036dc5f0b282224dfcb8180e2ade4aceca8106d286f712d4a74509a0a1c30b5c1404259e92ab57401a1d43ced38fea92449850b8818a37b040b81080880.2cb683844bb8acfd4fb9921dca918b22",
+    "id": 1,
+    "createdAt": "2025-05-08T03:24:18.216Z"
+  }
+]
