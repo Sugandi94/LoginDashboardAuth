@@ -5,9 +5,11 @@ import LoginForm from "@/components/login-form";
 import RegisterForm from "@/components/register-form";
 
 export default function AuthPage() {
-  const { user, isLoading } = useAuth();
+  const auth = useAuth();
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
+  
+  const { user, isLoading } = auth;
 
   // Redirect to dashboard if already logged in
   useEffect(() => {

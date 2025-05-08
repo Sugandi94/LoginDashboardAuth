@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useState, useEffect } from "react";
 import {
   useQuery,
   useMutation,
@@ -23,8 +23,21 @@ type RegisterData = z.infer<typeof insertUserSchema>;
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
+// Create a safe default value for the context
+const createDefaultContext = (): AuthContextType => ({
+  user: null,
+  isLoading: false,
+  error: null,
+  loginMutation: {} as UseMutationResult<Omit<User, "password">, Error, LoginData>,
+  registerMutation: {} as UseMutationResult<Omit<User, "password">, Error, RegisterData>,
+  logoutMutation: {} as UseMutationResult<void, Error, void>,
+});
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
+  // Set initial state to prevent errors during initialization
+  const [authState, setAuthState] = useState<AuthContextType>(createDefaultContext());
+  
   const {
     data: user,
     error,
@@ -96,17 +109,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  // Update context state after hooks are fully initialized
+  useEffect(() => {
+    setAuthState({
+      user: user ?? null,
+      isLoading,
+      error,
+      loginMutation,
+      logoutMutation,
+      registerMutation,
+    });
+  }, [user, isLoading, error, loginMutation, logoutMutation, registerMutation]);
+
   return (
-    <AuthContext.Provider
-      value={{
-        user: user ?? null,
-        isLoading,
-        error,
-        loginMutation,
-        logoutMutation,
-        registerMutation,
-      }}
-    >
+    <AuthContext.Provider value={authState}>
       {children}
     </AuthContext.Provider>
   );

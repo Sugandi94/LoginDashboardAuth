@@ -1,27 +1,36 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router as WouterRouter } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { ProtectedRoute } from "./lib/protected-route";
 import DashboardPage from "@/pages/dashboard-page";
 import AuthPage from "@/pages/auth-page";
+import { AuthProvider } from "./hooks/use-auth";
 
-function Router() {
+function AppRoutes() {
   return (
     <Switch>
       <ProtectedRoute path="/" component={DashboardPage} />
-      <Route path="/auth" component={AuthPage} />
-      <Route component={NotFound} />
+      <Route path="/auth">
+        <AuthPage />
+      </Route>
+      <Route>
+        <NotFound />
+      </Route>
     </Switch>
   );
 }
 
 function App() {
   return (
-    <TooltipProvider>
-      <Toaster />
-      <Router />
-    </TooltipProvider>
+    <AuthProvider>
+      <WouterRouter>
+        <TooltipProvider>
+          <Toaster />
+          <AppRoutes />
+        </TooltipProvider>
+      </WouterRouter>
+    </AuthProvider>
   );
 }
 
