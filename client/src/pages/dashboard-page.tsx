@@ -7,6 +7,7 @@ import ActivityCard from "@/components/dashboard/activity-card";
 import TasksCard from "@/components/dashboard/tasks-card";
 import ChartCard from "@/components/dashboard/chart-card";
 import NotesCard from "@/components/dashboard/notes-card";
+import UserManagementCard from "@/components/dashboard/user-management-card";
 import { useState } from "react";
 
 export default function DashboardPage() {
@@ -91,6 +92,7 @@ export default function DashboardPage() {
             
             {/* Right Column */}
             <div className="lg:col-span-2 space-y-6">
+              <UserManagementCard />
               <TasksCard />
               <ChartCard />
               <NotesCard />

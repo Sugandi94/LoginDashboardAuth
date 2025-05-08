@@ -31,13 +31,15 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   getAllUsers(): Promise<User[]>;
-  sessionStore: session.SessionStore;
+  updateUser(id: number, updateData: Partial<Omit<User, "id" | "password">>): Promise<User | undefined>;
+  deleteUser(id: number): Promise<boolean>;
+  sessionStore: any; // session.SessionStore;
 }
 
 export class MemStorage implements IStorage {
   private users: User[];
   currentId: number;
-  sessionStore: session.SessionStore;
+  sessionStore: any;
 
   constructor() {
     this.users = [];
@@ -100,6 +102,31 @@ export class MemStorage implements IStorage {
 
   async getAllUsers(): Promise<User[]> {
     return [...this.users];
+  }
+  
+  async updateUser(id: number, updateData: Partial<Omit<User, "id" | "password">>): Promise<User | undefined> {
+    const userIndex = this.users.findIndex(user => user.id === id);
+    if (userIndex === -1) return undefined;
+    
+    this.users[userIndex] = {
+      ...this.users[userIndex],
+      ...updateData
+    };
+    
+    await this.saveUsers();
+    return this.users[userIndex];
+  }
+  
+  async deleteUser(id: number): Promise<boolean> {
+    const initialLength = this.users.length;
+    this.users = this.users.filter(user => user.id !== id);
+    
+    if (initialLength !== this.users.length) {
+      await this.saveUsers();
+      return true;
+    }
+    
+    return false;
   }
 }
 
