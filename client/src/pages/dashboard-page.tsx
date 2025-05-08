@@ -21,7 +21,7 @@ export default function DashboardPage() {
       title: "Sessions",
       value: "24",
       change: "+12%",
-      trend: "up",
+      trend: "up" as const,
       icon: "fas fa-users",
       colorClass: "bg-indigo-100 text-primary",
       description: "Active today"
@@ -30,7 +30,7 @@ export default function DashboardPage() {
       title: "Tasks",
       value: "8",
       change: "-4%",
-      trend: "down",
+      trend: "down" as const,
       icon: "fas fa-tasks",
       colorClass: "bg-pink-100 text-secondary",
       description: "Completed today"
@@ -39,7 +39,7 @@ export default function DashboardPage() {
       title: "Activity",
       value: "86%",
       change: "+8%",
-      trend: "up",
+      trend: "up" as const,
       icon: "fas fa-chart-line",
       colorClass: "bg-purple-100 text-accent",
       description: "Last 30 days"
@@ -48,7 +48,7 @@ export default function DashboardPage() {
       title: "Notifications",
       value: "5",
       change: "+3",
-      trend: "up",
+      trend: "up" as const,
       icon: "fas fa-bell",
       colorClass: "bg-red-100 text-red-500",
       description: "Unread messages"
